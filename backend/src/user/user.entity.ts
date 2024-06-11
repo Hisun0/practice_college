@@ -2,7 +2,16 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('nestjs')
 export class UserEntity {
-  constructor(firstName: string, lastName: string) {
+  constructor(
+    email: string,
+    userName: string,
+    passwordHash: string,
+    firstName: string,
+    lastName: string,
+  ) {
+    this.email = email;
+    this.userName = userName;
+    this.passwordHash = passwordHash;
     this.firstName = firstName;
     this.lastName = lastName;
   }
@@ -11,11 +20,17 @@ export class UserEntity {
   id: number;
 
   @Column()
+  email: string;
+
+  @Column()
+  userName: string;
+
+  @Column()
+  passwordHash: string;
+
+  @Column()
   firstName: string;
 
   @Column()
   lastName: string;
-
-  @Column({ default: true })
-  isActive: boolean;
 }

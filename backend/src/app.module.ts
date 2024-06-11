@@ -6,6 +6,7 @@ import { DataSource } from 'typeorm';
 import { UsersController } from './user/user.controller';
 import { UsersModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
+import { AuthController } from './auth/auth.controller';
 
 @Module({
   imports: [
@@ -23,7 +24,7 @@ import { AuthModule } from './auth/auth.module';
     UsersModule,
     AuthModule,
   ],
-  controllers: [AppController, UsersController],
+  controllers: [AppController, UsersController, AuthController],
   providers: [AppService],
 })
 export class AppModule {
