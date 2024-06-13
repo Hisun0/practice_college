@@ -51,19 +51,29 @@ export class AuthController {
   // выход из аккаунта
   @UseGuards(AccessTokenGuard)
   @Get('logout')
-  async logout(@Req() request: Request): Promise<void> {
+  async logout(@Req() request: Request): Promise<AuthStatusInterface> {
     const userId = request.user['sub'];
-    await this.authService.logout(userId);
+    const result = await this.authService.logout(userId);
+
+    if (!result.success) {
+      throw new HttpException(result.message, HttpStatus.BAD_REQUEST);
+    }
+
+    return result;
   }
 
   // обновление refreshToken
   @UseGuards(RefreshTokenGuard)
   @Get('refresh')
-  async refresh(
-    @Req() request: Request,
-  ): Promise<{ accessToken: string; refreshToken: string }> {
+  async refresh(@Req() request: Request): Promise<AuthStatusInterface> {
     const userId = request.user['sub'];
     const refreshToken = request.user['refreshToken'];
-    return await this.authService.refreshTokens(userId, refreshToken);
+    const result = await this.authService.refreshTokens(userId, refreshToken);
+
+    if (!result.success) {
+      throw new HttpException(result.message, HttpStatus.BAD_REQUEST);
+    }
+
+    return result;
   }
 }

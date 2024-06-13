@@ -84,13 +84,17 @@ export class AuthService {
     await this.updateRefreshToken(newUser.id, tokens.refreshToken);
     return {
       success: true,
-      message: 'Registration successfull',
+      message: 'Registration successful',
       tokens,
     };
   }
 
-  async logout(userId: number): Promise<any> {
+  async logout(userId: number): Promise<AuthStatusInterface> {
     await this.usersService.update(userId, { refreshToken: null });
+    return {
+      success: true,
+      message: 'Logged out',
+    };
   }
 
   async updateRefreshToken(userId: number, refreshToken: string) {
@@ -130,10 +134,17 @@ export class AuthService {
     };
   }
 
-  async refreshTokens(userId: number, refreshToken: string) {
+  async refreshTokens(
+    userId: number,
+    refreshToken: string,
+  ): Promise<AuthStatusInterface> {
     const user = await this.usersService.findOne(userId);
-    if (!user || !user.refreshToken)
-      throw new ForbiddenException('Access Denied');
+    if (!user || !user.refreshToken) {
+      return {
+        success: false,
+        message: 'Access denied',
+      };
+    }
 
     const refreshTokenMatches = await bcrypt.compare(
       refreshToken,
@@ -143,6 +154,10 @@ export class AuthService {
     if (!refreshTokenMatches) throw new ForbiddenException('Access Denied');
     const tokens = await this.getTokens(user.id, user.userName);
     await this.updateRefreshToken(user.id, tokens.refreshToken);
-    return tokens;
+    return {
+      success: true,
+      message: 'Token refreshed',
+      tokens,
+    };
   }
 }
