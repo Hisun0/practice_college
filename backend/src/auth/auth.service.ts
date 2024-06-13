@@ -1,11 +1,11 @@
 import { ForbiddenException, HttpStatus, Injectable, Res, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from 'src/user/user.service';
-import { UserRegDto } from 'src/user/dto/userReg.dto';
+import { UserRegDto } from 'src/dto/userReg.dto';
 
 import * as bcrypt from 'bcrypt';
 import { UserEntity } from 'src/user/user.entity';
 import { JwtService } from '@nestjs/jwt';
-import { UserLoginDto } from '../user/dto/userLogin.dto';
+import { UserLoginDto } from '../dto/userLogin.dto';
 import { jwtConstants } from './constants';
 import { response } from 'express';
 import Registration from './interfaces/auth-status.interface';
