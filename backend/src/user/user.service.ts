@@ -22,6 +22,14 @@ export class UsersService {
     return this.usersRepository.findOneBy({ userName });
   }
 
+  existsByEmail(userEmail: string): Promise<boolean> {
+    return this.usersRepository.existsBy({ email: userEmail });
+  }
+
+  existsByUsername(userName: string): Promise<boolean> {
+    return this.usersRepository.existsBy({ userName });
+  }
+
   async update(
     userId: number,
     partialEntity: Partial<UserEntity>,
