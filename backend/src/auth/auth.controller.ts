@@ -9,7 +9,7 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { UserRegDto } from 'src/dto/userReg.dto';
+import { UserRegDto } from '../dto/userReg.dto';
 import { AuthService } from './auth.service';
 import { UserLoginDto } from '../dto/userLogin.dto';
 import { Request } from 'express';

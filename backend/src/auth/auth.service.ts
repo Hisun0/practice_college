@@ -1,14 +1,12 @@
-import { ForbiddenException, HttpStatus, Injectable, Res, UnauthorizedException } from '@nestjs/common';
-import { UsersService } from 'src/user/user.service';
-import { UserRegDto } from 'src/dto/userReg.dto';
+import { ForbiddenException, Injectable } from '@nestjs/common';
+import { UsersService } from '../user/user.service';
+import { UserRegDto } from '../dto/userReg.dto';
 
 import * as bcrypt from 'bcrypt';
-import { UserEntity } from 'src/user/user.entity';
+import { UserEntity } from '../user/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { UserLoginDto } from '../dto/userLogin.dto';
 import { jwtConstants } from './constants';
-import { response } from 'express';
-import Registration from './interfaces/auth-status.interface';
 import AuthStatusInterface from './interfaces/auth-status.interface';
 import capitalize from './utils/capitalize';
 
@@ -23,17 +21,18 @@ export class AuthService {
     const user = await this.usersService.findOneByUserName(
       userLoginDto.userName,
     );
-    const { userName, passwordHash } = user;
 
-    if (userName !== userLoginDto.userName) {
-      // не совпал никнейм
+    if (user === null || user.userName !== userLoginDto.userName) {
       return {
         success: false,
         message: 'Invalid username',
       };
     }
 
-    const match = await bcrypt.compare(userLoginDto.password, passwordHash);
+    const match = await bcrypt.compare(
+      userLoginDto.password,
+      user.passwordHash,
+    );
 
     if (!match) {
       // не совпал пароль
