@@ -1,9 +1,38 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity('nestjs')
 export class UserEntity {
+  constructor(
+    email: string,
+    userName: string,
+    passwordHash: string,
+    firstName: string,
+    lastName: string,
+  ) {
+    this.email = email;
+    this.userName = userName;
+    this.passwordHash = passwordHash;
+    this.firstName = firstName;
+    this.lastName = lastName;
+  }
+
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column()
+  email: string;
+
+  @Column()
+  userName: string;
+
+  @Column()
+  passwordHash: string;
 
   @Column()
   firstName: string;
@@ -11,6 +40,12 @@ export class UserEntity {
   @Column()
   lastName: string;
 
-  @Column({ default: true })
-  isActive: boolean;
+  @Column({ name: 'refresh_token', nullable: true })
+  refreshToken: string;
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
 }

@@ -18,8 +18,27 @@ export class UsersService {
     return this.usersRepository.findOneBy({ id });
   }
 
-  async add(user: UserEntity): Promise<void> {
-    await this.usersRepository.save(user);
+  findOneByUserName(userName: string): Promise<UserEntity | null> {
+    return this.usersRepository.findOneBy({ userName });
+  }
+
+  existsByEmail(userEmail: string): Promise<boolean> {
+    return this.usersRepository.existsBy({ email: userEmail });
+  }
+
+  existsByUsername(userName: string): Promise<boolean> {
+    return this.usersRepository.existsBy({ userName });
+  }
+
+  async update(
+    userId: number,
+    partialEntity: Partial<UserEntity>,
+  ): Promise<void> {
+    await this.usersRepository.update(userId, partialEntity);
+  }
+
+  async add(user: UserEntity): Promise<UserEntity> {
+    return await this.usersRepository.save(user);
   }
 
   async remove(id: number): Promise<void> {
