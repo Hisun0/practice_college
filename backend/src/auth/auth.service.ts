@@ -1,11 +1,13 @@
-import {HttpStatus, Injectable} from '@nestjs/common';
+import { HttpStatus, Injectable, Res } from '@nestjs/common';
 import { UsersService } from 'src/user/user.service';
 import { UserRegDto } from 'src/user/dto/userReg.dto';
 
 import * as bcrypt from 'bcrypt';
 import { UserEntity } from 'src/user/user.entity';
 import { JwtService } from '@nestjs/jwt';
-import {UserLoginDto} from "../user/dto/userLogin.dto";
+import { UserLoginDto } from '../user/dto/userLogin.dto';
+import { Response } from 'express';
+import { jwtConstants } from './constants';
 
 @Injectable()
 export class AuthService {
@@ -14,7 +16,10 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signIn(userLoginDto: UserLoginDto): Promise<any> {
+  async signIn(
+    userLoginDto: UserLoginDto,
+    @Res() response: Response,
+  ): Promise<any> {
     const user = await this.usersService.findOneByUserName(
       userLoginDto.userName,
     );
@@ -32,10 +37,9 @@ export class AuthService {
       return HttpStatus.BAD_REQUEST;
     }
 
-    const payload = { sub: user.id, username: userName };
-    return {
-      access_token: await this.jwtService.signAsync(payload),
-    };
+    const tokens = await this.getTokens(user.id, user.userName);
+    await this.updateRefreshToken(user.id, user.refreshToken);
+    return tokens;
   }
 
   async signUp(userRegDto: UserRegDto): Promise<any> {
@@ -50,7 +54,51 @@ export class AuthService {
       userRegDto.lastName,
     );
 
-    await this.usersService.add(user);
-    return user;
+    const newUser = await this.usersService.add(user);
+
+    const tokens = await this.getTokens(newUser.id, newUser.userName);
+    await this.updateRefreshToken(newUser.id, tokens.refreshToken);
+    return tokens;
+  }
+
+  async logout(userId: number): Promise<any> {
+    await this.usersService.update(userId, { refreshToken: null });
+  }
+
+  async updateRefreshToken(userId: number, refreshToken: string) {
+    const hashRefreshedToken = await bcrypt.hash(refreshToken, 10);
+    await this.usersService.update(userId, {
+      refreshToken: hashRefreshedToken,
+    });
+  }
+
+  async getTokens(userId: number, username: string) {
+    const [accessToken, refreshToken] = await Promise.all([
+      this.jwtService.signAsync(
+        {
+          sub: userId,
+          username,
+        },
+        {
+          secret: jwtConstants.secret,
+          expiresIn: '15m',
+        },
+      ),
+      this.jwtService.signAsync(
+        {
+          sub: userId,
+          username,
+        },
+        {
+          secret: jwtConstants.refreshToken,
+          expiresIn: '7d',
+        },
+      ),
+    ]);
+
+    return {
+      accessToken,
+      refreshToken,
+    };
   }
 }

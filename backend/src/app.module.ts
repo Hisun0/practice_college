@@ -7,9 +7,14 @@ import { UsersController } from './user/user.controller';
 import { UsersModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { AuthController } from './auth/auth.controller';
+import { ConfigModule } from '@nestjs/config';
+import config from './config/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      load: [config],
+    }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',

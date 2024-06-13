@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity('nestjs')
 export class UserEntity {
@@ -33,4 +33,13 @@ export class UserEntity {
 
   @Column()
   lastName: string;
+
+  @Column({ name: 'refresh_token', nullable: true })
+  refreshToken: string;
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
 }

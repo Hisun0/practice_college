@@ -1,8 +1,19 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { UserRegDto } from 'src/user/dto/userReg.dto';
 import { AuthService } from './auth.service';
 import { UserEntity } from '../user/user.entity';
 import { UserLoginDto } from '../user/dto/userLogin.dto';
+import { Response } from 'express';
+import { AccessTokenGuard } from './guards/accessToken.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -15,7 +26,22 @@ export class AuthController {
   }
 
   @Post('signIn')
-  async signIn(@Body() userLoginDto: UserLoginDto): Promise<any> {
-    return await this.authService.signIn(userLoginDto);
+  async signIn(
+    @Body() userLoginDto: UserLoginDto,
+    @Res() response: Response,
+  ): Promise<any> {
+    return await this.authService.signIn(userLoginDto, response);
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Get('logout')
+  logout(): void {
+    // TODO: метод для выхода из аккаунта
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Get('refresh')
+  refresh(): void {
+    // TODO: метод для обновления refresh токена
   }
 }
