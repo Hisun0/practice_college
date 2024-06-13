@@ -33,8 +33,9 @@ export class AuthController {
 
   @UseGuards(AccessTokenGuard)
   @Get('logout')
-  logout(): void {
-    // TODO: метод для выхода из аккаунта
+  async logout(@Req() request: Request): Promise<void> {
+    const userId = request.user['sub'];
+    await this.authService.logout(userId);
   }
 
   @UseGuards(RefreshTokenGuard)
@@ -42,7 +43,6 @@ export class AuthController {
   async refresh(
     @Req() request: Request,
   ): Promise<{ accessToken: string; refreshToken: string }> {
-    // TODO: метод для обновления refresh токена
     const userId = request.user['sub'];
     const refreshToken = request.user['refreshToken'];
     return await this.authService.refreshTokens(userId, refreshToken);
