@@ -10,6 +10,7 @@ import { jwtConstants } from './constants';
 import { response } from 'express';
 import Registration from './interfaces/auth-status.interface';
 import AuthStatusInterface from './interfaces/auth-status.interface';
+import capitalize from './utils/capitalize';
 
 @Injectable()
 export class AuthService {
@@ -71,11 +72,11 @@ export class AuthService {
     const passwordHash = await bcrypt.hash(password, 10);
 
     const user = new UserEntity(
-      email,
+      email.toLowerCase().trim(),
       userName,
       passwordHash,
-      firstName,
-      lastName,
+      capitalize(firstName).trim(),
+      capitalize(lastName).trim(),
     );
 
     const newUser = await this.usersService.add(user);
