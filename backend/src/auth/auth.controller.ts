@@ -6,6 +6,7 @@ import {
   HttpException,
   HttpStatus,
   Post,
+  Query,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -16,10 +17,14 @@ import { Request } from 'express';
 import { AccessTokenGuard } from './guards/accessToken.guard';
 import { RefreshTokenGuard } from './guards/refreshToken.guard';
 import AuthStatusInterface from './interfaces/auth-status.interface';
+import { VerificationService } from '../verification/verification.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly verificationService: VerificationService,
+  ) {}
 
   // регистрация
   @HttpCode(HttpStatus.CREATED)
@@ -75,5 +80,11 @@ export class AuthController {
     }
 
     return result;
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Get('verificate')
+  async verificate(@Query() code: string): Promise<any> {
+    await this.verificationService.confirmUser(code);
   }
 }

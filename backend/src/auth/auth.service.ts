@@ -9,12 +9,14 @@ import { UserLoginDto } from '../dto/userLogin.dto';
 import { jwtConstants } from './constants';
 import AuthStatusInterface from './interfaces/auth-status.interface';
 import capitalize from './utils/capitalize';
+import { EmailService } from '../email/email.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
+    private emailService: EmailService,
   ) {}
 
   async signIn(userLoginDto: UserLoginDto): Promise<AuthStatusInterface> {
@@ -79,6 +81,13 @@ export class AuthService {
     );
 
     const newUser = await this.usersService.add(user);
+    // подтвержение email на почту
+    const emailConfirmationResponse = await this.emailService.send(newUser);
+
+    if (!emailConfirmationResponse.success) {
+      // TODO: не отправилось письмо с подтверждением на почту, нужно что-то решать
+      console.log(emailConfirmationResponse);
+    }
 
     const tokens = await this.getTokens(newUser.id, newUser.userName);
     await this.updateRefreshToken(newUser.id, tokens.refreshToken);
@@ -86,6 +95,7 @@ export class AuthService {
       success: true,
       message: 'Registration successful',
       tokens,
+      email_confirmation: emailConfirmationResponse,
     };
   }
 
