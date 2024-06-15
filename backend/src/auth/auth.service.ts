@@ -1,9 +1,9 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
-import { UsersService } from '../user/user.service';
+import { UsersService } from '../users/users.service';
 import { UserRegDto } from '../dto/userReg.dto';
 
 import * as bcrypt from 'bcrypt';
-import { UserEntity } from '../user/user.entity';
+import { UserEntity } from '../users/entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { UserLoginDto } from '../dto/userLogin.dto';
 import { jwtConstants } from './constants';

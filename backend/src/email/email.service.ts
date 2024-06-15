@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
 import { VerificationService } from '../verification/verification.service';
 import { ConfigService } from '@nestjs/config';
-import { UserEntity } from '../user/user.entity';
+import { UserEntity } from '../users/entities/user.entity';
 import { DataSource } from 'typeorm';
 import AuthStatusInterface from '../auth/interfaces/auth-status.interface';
 

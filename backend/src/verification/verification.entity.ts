@@ -1,5 +1,5 @@
 import { Column, Entity, OneToOne, PrimaryColumn } from 'typeorm';
-import { UserEntity } from '../user/user.entity';
+import { UserEntity } from '../users/entities/user.entity';
 
 @Entity('verification')
 export class VerificationEntity {

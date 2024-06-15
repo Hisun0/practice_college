@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { VerificationEntity } from './verification.entity';
-import { UserEntity } from '../user/user.entity';
+import { UserEntity } from '../users/entities/user.entity';
 import AuthStatusInterface from '../auth/interfaces/auth-status.interface';
 import { InjectRepository } from '@nestjs/typeorm';
 

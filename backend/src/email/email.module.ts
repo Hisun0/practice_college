@@ -2,11 +2,10 @@ import { Module } from '@nestjs/common';
 import { EmailService } from './email.service';
 import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
 import { MailerModule } from '@nestjs-modules/mailer';
-import * as process from 'node:process';
 import { VerificationService } from '../verification/verification.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { VerificationEntity } from '../verification/verification.entity';
-import { UserEntity } from '../user/user.entity';
+import { UserEntity } from '../users/entities/user.entity';
 
 @Module({
   imports: [
