@@ -46,6 +46,9 @@ export class UserEntity {
   @Column({ name: 'is_email_confirmed', nullable: true, default: false })
   isEmailConfirmed: boolean;
 
+  @Column({ name: 'is_user_deleted', nullable: true, default: false })
+  isUserDeleted: boolean;
+
   @CreateDateColumn()
   created_at: Date;
 

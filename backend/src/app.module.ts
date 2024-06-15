@@ -3,13 +3,13 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
-import { UsersController } from './user/user.controller';
-import { UsersModule } from './user/user.module';
+import { UsersController } from './users/users.controller';
 import { AuthModule } from './auth/auth.module';
 import { AuthController } from './auth/auth.controller';
 import { ConfigModule } from '@nestjs/config';
 import { EmailModule } from './email/email.module';
 import { VerificationModule } from './verification/verification.module';
+import { UsersModule } from './users/users.module';
 import config from './config/config';
 import * as process from 'node:process';
 

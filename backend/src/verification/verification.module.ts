@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { VerificationService } from './verification.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { VerificationEntity } from './verification.entity';
-import { UsersModule } from '../user/user.module';
-import { UserEntity } from '../user/user.entity';
+import { UsersModule } from '../users/users.module';
+import { UserEntity } from '../users/entities/user.entity';
 
 @Module({
   imports: [
