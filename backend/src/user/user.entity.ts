@@ -43,6 +43,9 @@ export class UserEntity {
   @Column({ name: 'refresh_token', nullable: true })
   refreshToken: string;
 
+  @Column({ name: 'is_email_confirmed', nullable: true, default: false })
+  isEmailConfirmed: boolean;
+
   @CreateDateColumn()
   created_at: Date;
 
