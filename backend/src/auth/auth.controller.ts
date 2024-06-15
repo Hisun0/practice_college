@@ -84,7 +84,9 @@ export class AuthController {
 
   @UseGuards(AccessTokenGuard)
   @Get('verificate')
-  async verificate(@Query() code: string): Promise<any> {
-    await this.verificationService.confirmUser(code);
+  async verificate(
+    @Query() query: { code: string },
+  ): Promise<AuthStatusInterface> {
+    return await this.verificationService.confirmUser(query.code);
   }
 }
