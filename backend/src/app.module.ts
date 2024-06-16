@@ -8,7 +8,9 @@ import { UsersModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { AuthController } from './auth/auth.controller';
 import { ConfigModule } from '@nestjs/config';
+import { ProductModule } from './product/product.module';
 import config from './config/config';
+import { ProductController } from './product/product.controller';
 
 @Module({
   imports: [
@@ -19,7 +21,7 @@ import config from './config/config';
       type: 'postgres',
       host: 'localhost',
       port: 5432,
-      username: 'divaan',
+      username: 'daniil',
       password: 'divaan',
       database: 'postgres',
       entities: [],
@@ -28,8 +30,9 @@ import config from './config/config';
     }),
     UsersModule,
     AuthModule,
+    ProductModule,
   ],
-  controllers: [AppController, UsersController, AuthController],
+  controllers: [AppController, UsersController, AuthController, ProductController],
   providers: [AppService],
 })
 export class AppModule {
