@@ -16,18 +16,18 @@ export class ProductController {
     return this.productService.findAll();
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.productService.findOne(+id);
-  // }
+  @Get('/getProduct/:id')
+  findOne(@Param('id') id: string) {
+    return this.productService.findOne(+id);
+  }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateProductDto: ProductEntity) {
-  //   return this.productService.update(+id, updateProductDto);
-  // }
+  @Patch('/updateProduct/:id')
+  update(@Param('id') id: string, @Body() product: ProductEntity) {
+    return this.productService.update(+id, product);
+  }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.productService.remove(+id);
-  // }
+  @Delete('/deleteProduct/:id')
+  remove(@Param('id') id: string) {
+    return this.productService.remove(+id);
+  }
 }
