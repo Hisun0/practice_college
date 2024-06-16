@@ -1,4 +1,5 @@
-import { UserEntity } from "src/user/user.entity";
+
+import { UserEntity } from "src/users/entities/user.entity";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('product')
@@ -12,7 +13,10 @@ export class ProductEntity {
   @Column({ default: new Date() })
   created_at: string;
 
-  @ManyToOne(() => UserEntity, (user) => user.product)
-  @JoinColumn({ name: "user_id", referencedColumnName: "id" })
-  user: UserEntity;
+  @ManyToOne(() => UserEntity, (user) => user.product, { onDelete: "CASCADE" })
+  @JoinColumn({ name: "user_id" })
+  user_id: UserEntity;
+
+  @Column({ default: false })
+  is_deleted: boolean;
 }

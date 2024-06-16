@@ -11,10 +11,10 @@ export class ProductController {
     return this.productService.add(product);
   }
 
-  // @Get()
-  // findAll() {
-  //   return this.productService.findAll();
-  // }
+  @Get('/getAllProduct')
+  findAll() {
+    return this.productService.findAll();
+  }
 
   // @Get(':id')
   // findOne(@Param('id') id: string) {

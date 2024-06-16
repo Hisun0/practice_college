@@ -10,7 +10,12 @@ export class ProductService {
     private productRepository: Repository<ProductEntity>,
   ) {}
 
+  findAll(): Promise<ProductEntity[]> {
+    return this.productRepository.find();
+  }
+
   async add(product: ProductEntity): Promise<ProductEntity> {
     return this.productRepository.save(product);
   }
 }
+

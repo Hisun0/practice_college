@@ -3,7 +3,6 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   OneToMany,
@@ -47,9 +46,6 @@ export class UserEntity {
   @Column({ name: 'refresh_token', nullable: true })
   refreshToken: string;
 
-<<<<<<< HEAD:backend/src/user/user.entity.ts
-  @CreateDateColumn({ default: new Date() })
-=======
   @Column({ name: 'is_email_confirmed', nullable: true, default: false })
   isEmailConfirmed: boolean;
 
@@ -62,12 +58,11 @@ export class UserEntity {
   feedbacks: FeedbackEntity[];
 
   @CreateDateColumn()
->>>>>>> 52adb18b6f6e66278094ddfe4587447b4daf2d29:backend/src/users/entities/user.entity.ts
   created_at: Date;
 
   @UpdateDateColumn({ default: new Date() })
   updated_at: Date;
 
-  @OneToMany(() => ProductEntity, (product) => product.user)
+  @OneToMany(() => ProductEntity, (product) => product.user_id)
   product: ProductEntity[];
 }
