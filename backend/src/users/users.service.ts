@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserEntity } from './user.entity';
-import { Repository } from 'typeorm';
+import { UserEntity } from './entities/user.entity';
+import { Repository, UpdateResult } from 'typeorm';
 
 @Injectable()
 export class UsersService {
@@ -33,8 +33,8 @@ export class UsersService {
   async update(
     userId: number,
     partialEntity: Partial<UserEntity>,
-  ): Promise<void> {
-    await this.usersRepository.update(userId, partialEntity);
+  ): Promise<UpdateResult> {
+    return await this.usersRepository.update(userId, partialEntity);
   }
 
   async add(user: UserEntity): Promise<UserEntity> {
@@ -42,6 +42,6 @@ export class UsersService {
   }
 
   async remove(id: number): Promise<void> {
-    await this.usersRepository.delete(id);
+    await this.usersRepository.update(id, { isUserDeleted: true });
   }
 }

@@ -1,23 +1,28 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
-import { UsersService } from '../user/user.service';
+import { UsersService } from '../users/users.service';
 import { UserRegDto } from '../dto/userReg.dto';
 
 import * as bcrypt from 'bcrypt';
-import { UserEntity } from '../user/user.entity';
+import { UserEntity } from '../users/entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { UserLoginDto } from '../dto/userLogin.dto';
 import { jwtConstants } from './constants';
 import AuthStatusInterface from './interfaces/auth-status.interface';
 import capitalize from './utils/capitalize';
+import { EmailService } from '../email/email.service';
+import SignUpServiceInterface from './interfaces/signUp-service.interface';
+import TokenServiceInterface from './interfaces/token-service.interface';
+import SignInServiceInterface from './interfaces/signIn-service.interface';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
+    private emailService: EmailService,
   ) {}
 
-  async signIn(userLoginDto: UserLoginDto): Promise<AuthStatusInterface> {
+  async signIn(userLoginDto: UserLoginDto): Promise<SignInServiceInterface> {
     const user = await this.usersService.findOneByUserName(
       userLoginDto.userName,
     );
@@ -47,11 +52,11 @@ export class AuthService {
     return {
       success: true,
       message: 'Successfully logged in',
-      tokens,
+      accessToken: tokens.accessToken,
     };
   }
 
-  async signUp(userRegDto: UserRegDto): Promise<AuthStatusInterface> {
+  async signUp(userRegDto: UserRegDto): Promise<SignUpServiceInterface> {
     const { email, userName, password, firstName, lastName } = userRegDto;
 
     if (await this.usersService.existsByEmail(email)) {
@@ -79,6 +84,13 @@ export class AuthService {
     );
 
     const newUser = await this.usersService.add(user);
+    // подтвержение email на почту
+    const emailConfirmationResponse = await this.emailService.send(newUser);
+
+    if (!emailConfirmationResponse.success) {
+      // TODO: не отправилось письмо с подтверждением на почту, нужно что-то решать
+      console.log(emailConfirmationResponse);
+    }
 
     const tokens = await this.getTokens(newUser.id, newUser.userName);
     await this.updateRefreshToken(newUser.id, tokens.refreshToken);
@@ -86,6 +98,7 @@ export class AuthService {
       success: true,
       message: 'Registration successful',
       tokens,
+      email_confirmation: emailConfirmationResponse,
     };
   }
 
@@ -98,9 +111,8 @@ export class AuthService {
   }
 
   async updateRefreshToken(userId: number, refreshToken: string) {
-    const hashRefreshedToken = await bcrypt.hash(refreshToken, 10);
     await this.usersService.update(userId, {
-      refreshToken: hashRefreshedToken,
+      refreshToken,
     });
   }
 
@@ -123,7 +135,7 @@ export class AuthService {
         },
         {
           secret: jwtConstants.refreshToken,
-          expiresIn: '7d',
+          expiresIn: '40d',
         },
       ),
     ]);
@@ -137,7 +149,7 @@ export class AuthService {
   async refreshTokens(
     userId: number,
     refreshToken: string,
-  ): Promise<AuthStatusInterface> {
+  ): Promise<TokenServiceInterface> {
     const user = await this.usersService.findOne(userId);
     if (!user || !user.refreshToken) {
       return {
@@ -146,12 +158,9 @@ export class AuthService {
       };
     }
 
-    const refreshTokenMatches = await bcrypt.compare(
-      refreshToken,
-      user.refreshToken,
-    );
+    if (refreshToken === user.refreshToken)
+      throw new ForbiddenException('Access Denied');
 
-    if (!refreshTokenMatches) throw new ForbiddenException('Access Denied');
     const tokens = await this.getTokens(user.id, user.userName);
     await this.updateRefreshToken(user.id, tokens.refreshToken);
     return {
