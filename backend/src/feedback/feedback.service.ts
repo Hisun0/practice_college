@@ -63,6 +63,6 @@ export class FeedbackService {
   }
 
   remove(id: number) {
-    return this.feedbackRepository.update(id, { isFeedbackDeleted: true });
+    return this.feedbackRepository.update(id, { isDeleted: true });
   }
 }

@@ -39,6 +39,6 @@ export class FeedbackEntity {
   @Column({ nullable: false })
   rating: number;
 
-  @Column({ name: 'is_feedback_deleted', nullable: true, default: false })
-  isFeedbackDeleted: boolean;
+  @Column({ name: 'is_deleted', nullable: true, default: false })
+  isDeleted: boolean;
 }
