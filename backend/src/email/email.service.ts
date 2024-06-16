@@ -22,8 +22,6 @@ export class EmailService {
     await queryRunner.connect();
     await queryRunner.startTransaction();
 
-    // const result: AuthStatusInterface = {};
-
     try {
       const baseUrl = this.configService.get<string>('baseUrl');
       const verificationCode =
@@ -46,7 +44,7 @@ export class EmailService {
           splittedDirname.slice(0, splittedDirname.length - 1).join('/') +
           '/templates/email_confirmation.template.pug',
         context: {
-          username: user.userName,
+          username: user.username,
           urlConfirmLink: link,
         },
       });

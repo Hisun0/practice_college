@@ -12,13 +12,13 @@ import { FeedbackEntity } from '../../feedback/entities/feedback.entity';
 export class UserEntity {
   constructor(
     email: string,
-    userName: string,
+    username: string,
     passwordHash: string,
     firstName: string,
     lastName: string,
   ) {
     this.email = email;
-    this.userName = userName;
+    this.username = username;
     this.passwordHash = passwordHash;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -31,15 +31,15 @@ export class UserEntity {
   email: string;
 
   @Column()
-  userName: string;
+  username: string;
 
-  @Column()
+  @Column({ name: 'password_hash', nullable: false })
   passwordHash: string;
 
-  @Column()
+  @Column({ name: 'first_name', nullable: false })
   firstName: string;
 
-  @Column()
+  @Column({ name: 'last_name', nullable: false })
   lastName: string;
 
   @Column({ name: 'refresh_token', nullable: true })
@@ -48,17 +48,17 @@ export class UserEntity {
   @Column({ name: 'is_email_confirmed', nullable: true, default: false })
   isEmailConfirmed: boolean;
 
-  @Column({ name: 'is_user_deleted', nullable: true, default: false })
-  isUserDeleted: boolean;
+  @Column({ name: 'is_deleted', nullable: true, default: false })
+  isDeleted: boolean;
 
   @OneToMany(() => FeedbackEntity, (feedback) => feedback.seller, {
     onDelete: 'CASCADE',
   })
   feedbacks: FeedbackEntity[];
 
-  @CreateDateColumn()
-  created_at: Date;
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
 
-  @UpdateDateColumn()
-  updated_at: Date;
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: Date;
 }

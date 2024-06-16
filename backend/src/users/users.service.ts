@@ -18,16 +18,16 @@ export class UsersService {
     return this.usersRepository.findOneBy({ id });
   }
 
-  findOneByUserName(userName: string): Promise<UserEntity | null> {
-    return this.usersRepository.findOneBy({ userName });
+  findOneByUserName(username: string): Promise<UserEntity | null> {
+    return this.usersRepository.findOneBy({ username });
   }
 
   existsByEmail(userEmail: string): Promise<boolean> {
     return this.usersRepository.existsBy({ email: userEmail });
   }
 
-  existsByUsername(userName: string): Promise<boolean> {
-    return this.usersRepository.existsBy({ userName });
+  existsByUsername(username: string): Promise<boolean> {
+    return this.usersRepository.existsBy({ username });
   }
 
   async update(
@@ -42,6 +42,6 @@ export class UsersService {
   }
 
   async remove(id: number): Promise<void> {
-    await this.usersRepository.update(id, { isUserDeleted: true });
+    await this.usersRepository.update(id, { isDeleted: true });
   }
 }

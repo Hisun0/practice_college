@@ -9,9 +9,8 @@ export class VerificationEntity {
     this.code = code;
   }
 
-  @PrimaryColumn()
+  @PrimaryColumn({ name: 'user_id' })
   @OneToOne(() => UserEntity, { onDelete: 'CASCADE' })
-  @JoinColumn()
   userId: number;
 
   @Column()
