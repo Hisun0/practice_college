@@ -7,8 +7,8 @@ import { UserEntity } from './user.entity';
 export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
-  @Post('/addUser')
-  add(@Body() user: UserEntity): void {
-    this.userService.add(user);
-  }
+  // @Post('/addUser')
+  // add(@Body() user: UserEntity): void {
+  //   this.userService.add(user);
+  // }
 }
