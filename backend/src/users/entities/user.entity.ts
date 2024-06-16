@@ -1,10 +1,12 @@
 import {
-  Entity,
   Column,
-  PrimaryGeneratedColumn,
   CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { FeedbackEntity } from '../../feedback/entities/feedback.entity';
 
 @Entity('nestjs')
 export class UserEntity {
@@ -48,6 +50,11 @@ export class UserEntity {
 
   @Column({ name: 'is_user_deleted', nullable: true, default: false })
   isUserDeleted: boolean;
+
+  @OneToMany(() => FeedbackEntity, (feedback) => feedback.seller, {
+    onDelete: 'CASCADE',
+  })
+  feedbacks: FeedbackEntity[];
 
   @CreateDateColumn()
   created_at: Date;

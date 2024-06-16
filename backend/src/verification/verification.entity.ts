@@ -1,4 +1,4 @@
-import { Column, Entity, OneToOne, PrimaryColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
 import { UserEntity } from '../users/entities/user.entity';
 
 @Entity('verification')
@@ -11,6 +11,7 @@ export class VerificationEntity {
 
   @PrimaryColumn()
   @OneToOne(() => UserEntity, { onDelete: 'CASCADE' })
+  @JoinColumn()
   userId: number;
 
   @Column()
