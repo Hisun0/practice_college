@@ -26,10 +26,11 @@ export class FeedbackEntity {
   id: number;
 
   @ManyToOne(() => UserEntity, (user) => user.feedbacks, { nullable: false })
-  @JoinColumn({ name: 'user_id' })
+  @JoinColumn({ name: 'seller_id' })
   seller: UserEntity;
 
   @OneToOne(() => UserEntity, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'reviewer_id' })
   reviewer: UserEntity;
 
   @Column({ name: 'feedback_text', nullable: false })
