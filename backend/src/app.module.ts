@@ -10,6 +10,7 @@ import { ConfigModule } from '@nestjs/config';
 import { EmailModule } from './email/email.module';
 import { VerificationModule } from './verification/verification.module';
 import { UsersModule } from './users/users.module';
+import { FeedbackModule } from './feedback/feedback.module';
 import config from './config/config';
 import * as process from 'node:process';
 
@@ -34,6 +35,7 @@ import * as process from 'node:process';
     AuthModule,
     EmailModule,
     VerificationModule,
+    FeedbackModule,
   ],
   controllers: [AppController, UsersController, AuthController],
   providers: [AppService],
