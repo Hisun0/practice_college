@@ -15,6 +15,8 @@ import config from './config/config';
 import * as process from 'node:process';
 import { ProductController } from './product/product.controller';
 import { ProductModule } from './product/product.module';
+import { PriceModule } from './price/price.module';
+import { PriceController } from './price/price.controller';
 
 @Module({
   imports: [
@@ -38,9 +40,10 @@ import { ProductModule } from './product/product.module';
     EmailModule,
     VerificationModule,
     FeedbackModule,
-    ProductModule
+    ProductModule,
+    PriceModule
   ],
-  controllers: [AppController, UsersController, AuthController, ProductController],
+  controllers: [AppController, UsersController, AuthController, ProductController, PriceController],
   providers: [AppService],
 })
 export class AppModule {
