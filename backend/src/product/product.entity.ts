@@ -21,6 +21,6 @@ export class ProductEntity {
   @OneToOne(() => PriceEntity, (price) => price.productId, { onDelete: "CASCADE" })
   priceId: PriceEntity;
 
-  @Column({ default: false })
+  @Column({ default: false, name: "is_deleted" })
   isDeleted: boolean;
 }

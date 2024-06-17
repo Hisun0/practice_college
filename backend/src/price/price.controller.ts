@@ -3,21 +3,21 @@ import { PriceService } from './price.service';
 import { CreatePriceDto } from './dto/create-price.dto';
 import { UpdatePriceDto } from './dto/update-price.dto';
 
-@Controller()
+@Controller('price')
 export class PriceController {
   constructor(private readonly priceService: PriceService) {}
 
-  @Get('/getAllPrice')
+  @Get()
   getAllPrice() {
     return this.priceService.getAll();
   }
 
-  @Post('/addPrice')
+  @Post()
   addPrice(@Body() price: CreatePriceDto) {
     return this.priceService.addPrice(price);
   }
 
-  @Patch('/updatePrice/:id')
+  @Patch('/:id')
   updatePrice(@Param('id') id: string, @Body() price: UpdatePriceDto) {
     return this.priceService.updatePrice(+id, price)
   }

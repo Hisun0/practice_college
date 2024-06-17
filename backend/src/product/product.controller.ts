@@ -7,27 +7,27 @@ import { CreateProductDto } from './dto/create-price.dto';
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
-  @Get('/getAllProduct')
+  @Get()
   findAll() {
     return this.productService.findAll();
   }
 
-  @Get('/getProduct/:id')
+  @Get('/:id')
   findOne(@Param('id') id: string) {
     return this.productService.findOne(+id);
   }
 
-  @Post('/addProduct')
+  @Post()
   create(@Body() product: CreateProductDto) {
     return this.productService.add(product);
   }
 
-  @Patch('/updateProduct/:id')
+  @Patch('/:id')
   update(@Param('id') id: string, @Body() product: ProductEntity) {
     return this.productService.update(+id, product);
   }
 
-  @Delete('/deleteProduct/:id')
+  @Delete('/:id')
   remove(@Param('id') id: string) {
     return this.productService.remove(+id);
   }
