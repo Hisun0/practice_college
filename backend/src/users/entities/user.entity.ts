@@ -1,14 +1,15 @@
+import { ProductEntity } from 'src/product/product.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
-  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 import { FeedbackEntity } from '../../feedback/entities/feedback.entity';
 
-@Entity('nestjs')
+@Entity('users') // потом переименовать надо будет
 export class UserEntity {
   constructor(
     email: string,
@@ -59,6 +60,9 @@ export class UserEntity {
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
+  @OneToMany(() => ProductEntity, (product) => product.user_id)
+  product: ProductEntity[];
+  
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 }

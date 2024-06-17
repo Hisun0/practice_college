@@ -13,6 +13,8 @@ import { UsersModule } from './users/users.module';
 import { FeedbackModule } from './feedback/feedback.module';
 import config from './config/config';
 import * as process from 'node:process';
+import { ProductController } from './product/product.controller';
+import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [
@@ -24,7 +26,7 @@ import * as process from 'node:process';
       type: 'postgres',
       host: process.env.DATABASE_HOST || 'localhost',
       port: parseInt(process.env.DATABASE_PORT) || 5432,
-      username: process.env.DATABASE_USERNAME || 'divaan',
+      username: process.env.DATABASE_USERNAME || 'daniil',
       password: process.env.DATABASE_PASSWORD || 'divaan',
       database: 'postgres',
       entities: [],
@@ -36,8 +38,9 @@ import * as process from 'node:process';
     EmailModule,
     VerificationModule,
     FeedbackModule,
+    ProductModule
   ],
-  controllers: [AppController, UsersController, AuthController],
+  controllers: [AppController, UsersController, AuthController, ProductController],
   providers: [AppService],
 })
 export class AppModule {
