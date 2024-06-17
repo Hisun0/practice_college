@@ -60,7 +60,7 @@ export class UserEntity {
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
-  @OneToMany(() => ProductEntity, (product) => product.user_id)
+  @OneToMany(() => ProductEntity, (product) => product.userAddId)
   product: ProductEntity[];
   
   @UpdateDateColumn({ name: 'updated_at' })

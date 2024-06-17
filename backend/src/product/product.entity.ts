@@ -1,6 +1,7 @@
 
 import { UserEntity } from "src/users/entities/user.entity";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { PriceEntity } from "../price/entities/price.entity"
 
 @Entity('product')
 export class ProductEntity {
@@ -10,13 +11,16 @@ export class ProductEntity {
   @Column({ unique: true })
   name: string;
 
-  @Column({ default: new Date() })
-  created_at: string;
+  @Column({ default: new Date(), name: "created_at" })
+  createdAt: string;
 
   @ManyToOne(() => UserEntity, (user) => user.product, { onDelete: "CASCADE" })
-  @JoinColumn({ name: "user_id" })
-  user_id: UserEntity;
+  @JoinColumn({ name: "user_add_id" })
+  userAddId: UserEntity;
 
-  @Column({ default: false })
-  is_deleted: boolean;
+  @OneToOne(() => PriceEntity, (price) => price.productId, { onDelete: "CASCADE" })
+  priceId: PriceEntity;
+
+  @Column({ default: false, name: "is_deleted" })
+  isDeleted: boolean;
 }
