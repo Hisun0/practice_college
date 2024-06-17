@@ -27,7 +27,7 @@ export class AuthService {
       userLoginDto.userName,
     );
 
-    if (user === null || user.userName !== userLoginDto.userName) {
+    if (user === null || user.username !== userLoginDto.userName) {
       return {
         success: false,
         message: 'Invalid username',
@@ -47,7 +47,7 @@ export class AuthService {
       };
     }
 
-    const tokens = await this.getTokens(user.id, user.userName);
+    const tokens = await this.getTokens(user.id, user.username);
     await this.updateRefreshToken(user.id, tokens.refreshToken);
     return {
       success: true,
@@ -92,7 +92,7 @@ export class AuthService {
       console.log(emailConfirmationResponse);
     }
 
-    const tokens = await this.getTokens(newUser.id, newUser.userName);
+    const tokens = await this.getTokens(newUser.id, newUser.username);
     await this.updateRefreshToken(newUser.id, tokens.refreshToken);
     return {
       success: true,
@@ -161,7 +161,7 @@ export class AuthService {
     if (refreshToken === user.refreshToken)
       throw new ForbiddenException('Access Denied');
 
-    const tokens = await this.getTokens(user.id, user.userName);
+    const tokens = await this.getTokens(user.id, user.username);
     await this.updateRefreshToken(user.id, tokens.refreshToken);
     return {
       success: true,
