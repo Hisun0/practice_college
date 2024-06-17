@@ -3,7 +3,7 @@ import { ProductService } from './product.service';
 import { ProductEntity } from './product.entity';
 import { CreateProductDto } from './dto/create-price.dto';
 
-@Controller()
+@Controller('product')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
