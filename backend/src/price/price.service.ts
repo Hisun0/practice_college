@@ -33,8 +33,12 @@ export class PriceService {
       productId,
       price
     });
-
-    return await this.priceRepository.save(newPrice);
+    
+    try {
+      return await this.priceRepository.save(newPrice);
+    } catch(_e) {
+      throw new NotFoundException('id product is already in use');
+    }
   }
 
   async updatePrice(id: number, price: UpdatePriceDto): Promise<UpdateResult> {
