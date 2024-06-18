@@ -34,7 +34,7 @@ export class AppController {
     return [login, password, id];
   }
 
-  @Get()
+  @Get('/')
   getHello(): string {
     return this.appService.getHello();
   }

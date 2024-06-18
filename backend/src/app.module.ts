@@ -13,6 +13,11 @@ import { UsersModule } from './users/users.module';
 import { FeedbackModule } from './feedback/feedback.module';
 import config from './config/config';
 import * as process from 'node:process';
+import { ProductController } from './product/product.controller';
+import { ProductModule } from './product/product.module';
+import { PriceModule } from './price/price.module';
+import { PriceController } from './price/price.controller';
+import { FavoritesModule } from './favorites/favorites.module';
 
 @Module({
   imports: [
@@ -36,8 +41,11 @@ import * as process from 'node:process';
     EmailModule,
     VerificationModule,
     FeedbackModule,
+    ProductModule,
+    PriceModule,
+    FavoritesModule
   ],
-  controllers: [AppController, UsersController, AuthController],
+  controllers: [AppController, UsersController, AuthController, ProductController, PriceController],
   providers: [AppService],
 })
 export class AppModule {
