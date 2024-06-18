@@ -7,7 +7,8 @@
 Для запуска типа в продакшен потребуется:
 
 1. Установить Docker Desktop ([скачать](https://www.docker.com/products/docker-desktop/))
-2. В корне проекта прописать
+2. Запустить Docker Desktop
+3. В корне проекта прописать
    ```bash
    docker-compose up
    ```
