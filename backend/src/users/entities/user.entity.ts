@@ -6,8 +6,10 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   OneToMany,
+  ManyToMany,
 } from 'typeorm';
 import { FeedbackEntity } from '../../feedback/entities/feedback.entity';
+import { FavoriteEntity } from 'src/favorites/entities/favorite.entity';
 
 @Entity('users') // потом переименовать надо будет
 export class UserEntity {
@@ -60,11 +62,14 @@ export class UserEntity {
   })
   feedbacks: FeedbackEntity[];
 
-  @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date;
-
+  @OneToMany(() => FavoriteEntity, (favorit) => favorit.userId)
+  favorite: FavoriteEntity;
+  
   @OneToMany(() => ProductEntity, (product) => product.userAddId)
   product: ProductEntity[];
+
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
   
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;

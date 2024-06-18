@@ -17,6 +17,7 @@ import { ProductController } from './product/product.controller';
 import { ProductModule } from './product/product.module';
 import { PriceModule } from './price/price.module';
 import { PriceController } from './price/price.controller';
+import { FavoritesModule } from './favorites/favorites.module';
 
 @Module({
   imports: [
@@ -41,7 +42,8 @@ import { PriceController } from './price/price.controller';
     VerificationModule,
     FeedbackModule,
     ProductModule,
-    PriceModule
+    PriceModule,
+    FavoritesModule
   ],
   controllers: [AppController, UsersController, AuthController, ProductController, PriceController],
   providers: [AppService],
