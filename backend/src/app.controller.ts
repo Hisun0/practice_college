@@ -18,7 +18,7 @@ export class AppController {
 
   @Post('/addUser')
   addUser(@Body() body: AddUserDTO): object {
-    const {login, password} = body;
+    const { login, password } = body;
     return [login, password];
   }
 

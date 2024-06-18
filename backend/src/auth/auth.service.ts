@@ -24,10 +24,10 @@ export class AuthService {
 
   async signIn(userLoginDto: UserLoginDto): Promise<SignInServiceInterface> {
     const user = await this.usersService.findOneByUserName(
-      userLoginDto.userName,
+      userLoginDto.username,
     );
 
-    if (user === null || user.username !== userLoginDto.userName) {
+    if (user === null || user.username !== userLoginDto.username) {
       return {
         success: false,
         message: 'Invalid username',
@@ -57,7 +57,7 @@ export class AuthService {
   }
 
   async signUp(userRegDto: UserRegDto): Promise<SignUpServiceInterface> {
-    const { email, userName, password, firstName, lastName } = userRegDto;
+    const { email, username, password, firstName, lastName } = userRegDto;
 
     if (await this.usersService.existsByEmail(email)) {
       return {
@@ -66,7 +66,7 @@ export class AuthService {
       };
     }
 
-    if (await this.usersService.existsByUsername(userName)) {
+    if (await this.usersService.existsByUsername(username)) {
       return {
         success: false,
         message: 'Username already exists',
@@ -77,7 +77,7 @@ export class AuthService {
 
     const user = new UserEntity(
       email.toLowerCase().trim(),
-      userName,
+      username,
       passwordHash,
       capitalize(firstName).trim(),
       capitalize(lastName).trim(),

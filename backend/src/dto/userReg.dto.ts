@@ -6,7 +6,7 @@ export class UserRegDto {
 
   @IsNotEmpty()
   @Length(3, 255)
-  userName: string;
+  username: string;
 
   @IsNotEmpty()
   @Length(8, 255)
