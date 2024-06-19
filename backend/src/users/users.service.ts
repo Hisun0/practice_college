@@ -18,17 +18,17 @@ export class UsersService {
     return this.usersRepository.findOneBy({ id });
   }
 
-  findOneByUserName(username: string): Promise<UserEntity | null> {
-    return this.usersRepository.findOneBy({ username });
+  findOneByUserName(email: string): Promise<UserEntity | null> {
+    return this.usersRepository.findOneBy({ email });
   }
 
   existsByEmail(userEmail: string): Promise<boolean> {
     return this.usersRepository.existsBy({ email: userEmail });
   }
 
-  existsByUsername(username: string): Promise<boolean> {
-    return this.usersRepository.existsBy({ username });
-  }
+  // existsByUsername(username: string): Promise<boolean> {
+  //   return this.usersRepository.existsBy({ username });
+  // }
 
   async update(
     userId: number,
