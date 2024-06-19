@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { ProductEntity } from './product.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, UpdateResult } from 'typeorm';
+import { ILike, Repository, UpdateResult } from 'typeorm';
 import { CreateProductDto } from './dto/create-price.dto';
 import { UserEntity } from 'src/users/entities/user.entity';
 
@@ -21,6 +21,10 @@ export class ProductService {
 
   findOne(id: number): Promise<ProductEntity[]> {
     return this.productRepository.find({ where: { isDeleted: false, id }});
+  }
+
+  async search(param: string): Promise<ProductEntity[]> {
+    return await this.productRepository.find({ where: { isDeleted: false, name: ILike(`%${param}%`) }});
   }
 
   async add(product: CreateProductDto): Promise<ProductEntity> {
