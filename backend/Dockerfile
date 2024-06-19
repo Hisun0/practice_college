@@ -7,8 +7,6 @@ WORKDIR /backend
 
 COPY package.json package-lock.json ./
 
-COPY certificate ./
-
 RUN npm install
 
 COPY . ./
