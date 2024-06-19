@@ -1,4 +1,4 @@
-import Form from "@/components/Form";
+import RegisterForm from "@/components/RegisterForm";
 
 const Page = () => {
   return (
@@ -9,7 +9,7 @@ const Page = () => {
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
               Регистрация
             </h1>
-            <Form/>
+            <RegisterForm/>
           </div>
         </div>
     </main>

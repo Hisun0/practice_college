@@ -2,7 +2,7 @@
 
 import axiosInstance from "../../axiosInstance";
 
-const Form = () => {
+const RegisterForm = () => {
   const onSubmit = async (event) => {
     event.preventDefault();
 
@@ -55,7 +55,7 @@ const Form = () => {
       <div>
         <label htmlFor="confirm-password"
                className="block mb-2 text-sm font-medium text-gray-900">Подтвердите пароль</label>
-        <input type="confirm-password" name="confirm-password" id="confirm-password" placeholder="••••••••"
+        <input type="password" name="confirm-password" id="confirm-password" placeholder="••••••••"
                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                required=""/>
       </div>
@@ -64,11 +64,11 @@ const Form = () => {
         аккаунт
       </button>
       <p className="text-sm font-light text-gray-500">
-        Уже есть аккаунт? <a href="#"
+        Уже есть аккаунт? <a href="/auth/login"
                              className="font-medium text-primary-600 hover:underline">Войдите здесь</a>
       </p>
     </form>
   );
 }
 
-export default Form;
+export default RegisterForm;
