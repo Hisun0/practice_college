@@ -1,15 +1,8 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import axios from "axios";
 import Header from "@/components/Header";
 
 const inter = Inter({ subsets: ["latin"] });
-
-const axiosInstance = axios.create({
-  baseURL: 'https://some-domain.com/api/',
-  timeout: 1000,
-  headers: {'X-Custom-Header': 'foobar'}
-});
 
 export const metadata = {
   title: "Create Next App",
