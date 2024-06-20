@@ -1,8 +1,0 @@
-version: "2"
-authtoken: 2h3D3xb9DcrGDZWfHRhrZXgIFru_84jMWQ4RvGVziSSiUH179
-tunnels:
-  frontend:
-    proto: http
-    addr: frontend:3000
-    domain: mentally-prime-possum.ngrok-free.app
-    host_header: rewrite
