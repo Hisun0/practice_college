@@ -12,5 +12,3 @@
    ```bash
    docker-compose up
    ```
-   
-Теперь все запустилось. Сервер находится на https://localhost:3000, а фронт на https://mentally-prime-possum.ngrok-free.app
