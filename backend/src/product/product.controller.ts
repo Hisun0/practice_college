@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { ProductEntity } from './product.entity';
 import { CreateProductDto } from './dto/create-price.dto';
@@ -10,6 +10,11 @@ export class ProductController {
   @Get()
   findAll() {
     return this.productService.findAll();
+  }
+
+  @Get('/searchByName')
+  search(@Query('name') name: string) {
+    return this.productService.search(name);
   }
 
   @Get('/:id')

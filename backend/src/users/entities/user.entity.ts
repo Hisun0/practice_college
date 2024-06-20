@@ -7,21 +7,22 @@ import {
   UpdateDateColumn,
   OneToMany,
   ManyToMany,
+  OneToOne,
+  ManyToOne,
 } from 'typeorm';
 import { FeedbackEntity } from '../../feedback/entities/feedback.entity';
 import { FavoriteEntity } from 'src/favorites/entities/favorite.entity';
+import { PriceEntity } from 'src/price/entities/price.entity';
 
 @Entity('users') // потом переименовать надо будет
 export class UserEntity {
   constructor(
     email: string,
-    username: string,
     passwordHash: string,
     firstName: string,
     lastName: string,
   ) {
     this.email = email;
-    this.username = username;
     this.passwordHash = passwordHash;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -32,9 +33,6 @@ export class UserEntity {
 
   @Column({ name: "email", type: "varchar", length: 255 })
   email: string;
-
-  @Column({ name: "username", type: "varchar", length: 255 })
-  username: string;
 
   @Column({ name: 'password_hash', nullable: false, type: "varchar", length: 255 })
   passwordHash: string;
@@ -67,6 +65,9 @@ export class UserEntity {
   
   @OneToMany(() => ProductEntity, (product) => product.userAddId)
   product: ProductEntity[];
+
+  @OneToMany(() => PriceEntity, (price) => price.userId)
+  priceId: PriceEntity;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

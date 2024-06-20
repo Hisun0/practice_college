@@ -24,10 +24,10 @@ export class AuthService {
 
   async signIn(userLoginDto: UserLoginDto): Promise<SignInServiceInterface> {
     const user = await this.usersService.findOneByUserName(
-      userLoginDto.username,
+      userLoginDto.email,
     );
 
-    if (user === null || user.username !== userLoginDto.username) {
+    if (user === null || user.email !== userLoginDto.email) {
       return {
         success: false,
         message: 'Invalid username',
@@ -47,7 +47,7 @@ export class AuthService {
       };
     }
 
-    const tokens = await this.getTokens(user.id, user.username);
+    const tokens = await this.getTokens(user.id, user.email);
     await this.updateRefreshToken(user.id, tokens.refreshToken);
     return {
       success: true,
@@ -57,7 +57,7 @@ export class AuthService {
   }
 
   async signUp(userRegDto: UserRegDto): Promise<SignUpServiceInterface> {
-    const { email, username, password, firstName, lastName } = userRegDto;
+    const { email, password, firstName, lastName } = userRegDto;
 
     if (await this.usersService.existsByEmail(email)) {
       return {
@@ -66,18 +66,10 @@ export class AuthService {
       };
     }
 
-    if (await this.usersService.existsByUsername(username)) {
-      return {
-        success: false,
-        message: 'Username already exists',
-      };
-    }
-
     const passwordHash = await bcrypt.hash(password, 10);
 
     const user = new UserEntity(
       email.toLowerCase().trim(),
-      username,
       passwordHash,
       capitalize(firstName).trim(),
       capitalize(lastName).trim(),
@@ -92,7 +84,7 @@ export class AuthService {
       console.log(emailConfirmationResponse);
     }
 
-    const tokens = await this.getTokens(newUser.id, newUser.username);
+    const tokens = await this.getTokens(newUser.id, newUser.email);
     await this.updateRefreshToken(newUser.id, tokens.refreshToken);
     return {
       success: true,
@@ -161,7 +153,7 @@ export class AuthService {
     if (refreshToken === user.refreshToken)
       throw new ForbiddenException('Access Denied');
 
-    const tokens = await this.getTokens(user.id, user.username);
+    const tokens = await this.getTokens(user.id, user.email);
     await this.updateRefreshToken(user.id, tokens.refreshToken);
     return {
       success: true,
