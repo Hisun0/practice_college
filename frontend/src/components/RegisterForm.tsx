@@ -1,30 +1,36 @@
-'use client'
+import axiosInstance from '../../axiosInstance';
+import { useNavigate } from 'react-router-dom';
 
-import axiosInstance from "../../axiosInstance";
+const RegisterForm = ({ setIsLoggedIn }) => {
+  const navigate = useNavigate();
 
-const RegisterForm = () => {
   const onSubmit = async (event) => {
     event.preventDefault();
 
     const formData = new FormData(event.target);
 
-    await axiosInstance.post('api/auth/signUp', {
-      username: formData.get("username"),
-      email: formData.get("email"),
-      firstName: formData.get("firstName"),
-      lastName: formData.get("lastName"),
-      password: formData.get("password"),
-    }, { headers: { 'Content-Type': 'application/json' } });
+    try {
+      const response = await axiosInstance.post('api/auth/signUp', {
+        email: formData.get("email"),
+        firstName: formData.get("firstName"),
+        lastName: formData.get("lastName"),
+        password: formData.get("password"),
+      }, {headers: {'Content-Type': 'application/json'}});
+
+      const { accessToken, user: { id, email, firstName, lastName } } = response.data;
+      const userBody = { accessToken, id, email, firstName, lastName };
+
+      localStorage.setItem("accessToken", JSON.stringify(userBody));
+      setIsLoggedIn(true);
+
+      navigate('/');
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
     <form className="space-y-4 md:space-y-6" onSubmit={onSubmit}>
-      <div>
-        <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900">Имя пользователя</label>
-        <input type="text" name="username" id="username"
-               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-               placeholder="yourUsername" required=""/>
-      </div>
       <div>
         <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">Электронная почта</label>
         <input type="email" name="email" id="email"

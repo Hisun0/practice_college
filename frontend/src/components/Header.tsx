@@ -1,13 +1,34 @@
-'use client'
-
 import { useState } from "react";
 import { GrClose } from "react-icons/gr";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { FaRegHeart } from "react-icons/fa";
+import { FaRegHeart, FaUserCircle } from 'react-icons/fa';
 import { BiBasket } from "react-icons/bi";
 
-function Header() {
+function Header({ isLoggedIn }) {
   const [showMenu, setShowMenu] = useState(false);
+
+  const renderLogInOrNo = () => {
+    if (isLoggedIn) {
+      return (
+        <>
+          <a href="/additem">
+            <button className="text-white font-medium bg-indigo-600 hover:bg-indigo-700 py-2 px-4 rounded-lg">Выставить лот
+            </button>
+          </a>
+          <FaUserCircle />
+        </>
+      );
+    }
+
+    return (
+      <>
+        <a href="/auth/login">
+          <button className="text-white font-medium bg-indigo-600 hover:bg-indigo-700 py-2 px-4 rounded-lg">Войти
+          </button>
+        </a>
+      </>
+    );
+  };
 
   return (
     <header className="flex flex-row items-center justify-between sm:justify-around p-2 py-4 bg-white drop-shadow">
@@ -37,10 +58,7 @@ function Header() {
             <p>Ставки</p>
           </div>
         </a>
-        <a href="/auth/login">
-          <button className="text-white font-medium bg-indigo-600 hover:bg-indigo-700 py-2 px-4 rounded-lg">Войти
-          </button>
-        </a>
+        {renderLogInOrNo()}
       </nav>
       <nav className="sm:hidden flex flex-col items-end gap-1 font-semibold">
         <button
