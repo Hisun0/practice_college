@@ -44,7 +44,7 @@ export class EmailService {
           splittedDirname.slice(0, splittedDirname.length - 1).join('/') +
           '/templates/email_confirmation.template.pug',
         context: {
-          username: user.username,
+          username: user.email,
           urlConfirmLink: link,
         },
       });

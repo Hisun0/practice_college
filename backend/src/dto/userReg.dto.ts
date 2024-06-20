@@ -5,10 +5,6 @@ export class UserRegDto {
   email: string;
 
   @IsNotEmpty()
-  @Length(3, 255)
-  username: string;
-
-  @IsNotEmpty()
   @Length(8, 255)
   password: string;
 

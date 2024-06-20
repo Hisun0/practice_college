@@ -1,3 +1,4 @@
 export class UpdatePriceDto {
-  price: number
+  price: number;
+  user_id: number;
 }

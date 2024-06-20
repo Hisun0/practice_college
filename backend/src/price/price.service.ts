@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ProductEntity } from 'src/product/product.entity';
 import { CreatePriceDto } from './dto/create-price.dto';
 import { UpdatePriceDto } from './dto/update-price.dto';
+import { UserEntity } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class PriceService {
@@ -14,6 +15,9 @@ export class PriceService {
 
     @InjectRepository(ProductEntity)
     private readonly productRepository: Repository<ProductEntity>,
+
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>,
   ) {}
 
   getAll(): Promise<PriceEntity[]> {
@@ -21,7 +25,7 @@ export class PriceService {
   }
 
   async addPrice(priceDto: CreatePriceDto): Promise<PriceEntity> {
-    const { product_id, price } = priceDto;
+    const { product_id, price, user_id } = priceDto;
 
     const productId = await this.productRepository.findOneBy({ id: product_id })
 
@@ -29,10 +33,18 @@ export class PriceService {
       throw new NotFoundException('Product does not exist');
     };
 
+    const userId = await this.userRepository.findOneBy({ id: user_id })
+
+    if (!userId) {
+      throw new NotFoundException('User does not exist');
+    };
+
     const newPrice = this.priceRepository.create({
       productId,
-      price
+      price,
+      userId
     });
+
     
     try {
       return await this.priceRepository.save(newPrice);
@@ -41,7 +53,20 @@ export class PriceService {
     }
   }
 
-  async updatePrice(id: number, price: UpdatePriceDto): Promise<UpdateResult> {
-    return this.priceRepository.update(id, price);
+  async updatePrice(id: number, priceDto: UpdatePriceDto): Promise<UpdateResult> {
+    const { user_id, price } = priceDto;
+
+    const userId = await this.userRepository.findOneBy({ id: user_id });
+
+    if (!userId) {
+      throw new NotFoundException('User does not exist');
+    };
+
+    const newPrice = this.priceRepository.create({
+      userId,
+      price
+    })
+
+    return this.priceRepository.update(id, newPrice);
   }
 }
