@@ -23,7 +23,7 @@ export class EmailService {
     await queryRunner.startTransaction();
 
     try {
-      const baseUrl = this.configService.get<string>('baseUrl');
+      const baseUrl = this.configService.get<string>('emailUrl');
       const verificationCode =
         this.verificationService.createVerificationCode();
       const link = `${baseUrl}/auth/verificate?code=${verificationCode}`;
