@@ -2,14 +2,14 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as cookieParser from 'cookie-parser';
 import { ValidationPipe } from '@nestjs/common';
-import * as fs from 'node:fs';
 
 async function bootstrap() {
-  const httpsOptions = {
-    key: fs.readFileSync('/etc/certificate/key.pem'),
-    cert: fs.readFileSync('/etc/certificate/cert.pem'),
-  };
-  const app = await NestFactory.create(AppModule, { httpsOptions });
+  // const httpsOptions = {
+  //   key: fs.readFileSync('/etc/certificate/key.pem'),
+  //   cert: fs.readFileSync('/etc/certificate/cert.pem'),
+  //   passphrase: 'qwerty',
+  // };
+  const app = await NestFactory.create(AppModule);
   app.use(cookieParser('secret'));
   app.enableCors({
     origin: 'https://champion-ladybird-formally.ngrok-free.app',

@@ -27,16 +27,3 @@ services:
       POSTGRES_PASSWORD: "postgres"
     ports:
       - 5432:5432
-
-  ngrok:
-    image: ngrok/ngrok:latest
-    restart: unless-stopped
-    command:
-      - "start"
-      - "--config"
-      - "./etc/ngrok.yml"
-      - "--all"
-    volumes:
-      - ./ngrok.yml:/etc/ngrok.yml
-    ports:
-      - 4041:3000
