@@ -3,16 +3,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-  OneToMany,
-  ManyToMany,
-  OneToOne,
-  ManyToOne,
 } from 'typeorm';
 import { FeedbackEntity } from '../../feedback/entities/feedback.entity';
 import { FavoriteEntity } from 'src/favorites/entities/favorite.entity';
-import { PriceEntity } from 'src/price/entities/price.entity';
 
 @Entity('users') // потом переименовать надо будет
 export class UserEntity {
@@ -65,9 +61,6 @@ export class UserEntity {
   
   @OneToMany(() => ProductEntity, (product) => product.userAddId)
   product: ProductEntity[];
-
-  @OneToMany(() => PriceEntity, (price) => price.userId)
-  priceId: PriceEntity;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

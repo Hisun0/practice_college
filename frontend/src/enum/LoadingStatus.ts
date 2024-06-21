@@ -1,5 +1,7 @@
 enum LoadingStatus {
-  PENDING, FULLFILLED, REJECTED
+  PENDING = 'pending',
+  FULFILLED  = 'fulfilled',
+  REJECTED = 'rejected'
 }
 
 export default LoadingStatus;

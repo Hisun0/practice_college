@@ -12,17 +12,20 @@ const Home = () => {
   const loadingStatus = useAppSelector(selectLoadingStatus);
   const products = useAppSelector(selectProducts);
 
-  const accessToken = useAppSelector(selectLoadingStatus);
+  console.log(products);
+  console.log(loadingStatus);
 
-  console.log('In component: ' + products);
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch])
 
   const renderContent = () => {
-    switch (+loadingStatus) {
+    switch (loadingStatus) {
       case LoadingStatus.PENDING:
         return <ClipLoader />
       case LoadingStatus.REJECTED:
         return <NotFound />
-      case LoadingStatus.FULLFILLED:
+      case LoadingStatus.FULFILLED:
         return products.length !== 0 ? (
           <>
             {products.map((product, index) => (
@@ -35,10 +38,6 @@ const Home = () => {
         ) : <NotFound />
     }
   };
-
-  useEffect(() => {
-    dispatch(fetchProducts());
-  }, [dispatch])
 
   return (
     <main className="container my-0 mx-auto bg-white p-6">

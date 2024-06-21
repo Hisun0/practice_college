@@ -44,6 +44,7 @@ export class AuthController {
 
     const {
       email_confirmation,
+      user,
       tokens: { accessToken, refreshToken },
     } = result;
     response.cookie('refreshToken', refreshToken, {
@@ -58,6 +59,7 @@ export class AuthController {
       success: true,
       message: 'Registration successful',
       status: HttpStatus.CREATED,
+      user,
       accessToken,
       email_confirmation,
     };
@@ -77,6 +79,7 @@ export class AuthController {
     return {
       success: true,
       message: result.message,
+      user: result.user,
       status: HttpStatus.OK,
       accessToken: result.accessToken,
     };

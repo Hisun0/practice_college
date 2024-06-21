@@ -1,15 +1,26 @@
 import axiosInstance from "../../axiosInstance";
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
+  const navigate = useNavigate();
+
   const onSubmit = async (event) => {
     event.preventDefault();
 
     const formData = new FormData(event.target);
 
-    await axiosInstance.post('api/auth/signIn', {
+    const response = await axiosInstance.post('api/auth/signIn', {
       email: formData.get("email"),
       password: formData.get("password"),
     }, { headers: { 'Content-Type': 'application/json' } });
+
+    const { accessToken, user: { id, email, firstName, lastName } } = response.data;
+    const userBody = { accessToken, id, email, firstName, lastName };
+
+    localStorage.setItem("accessToken", JSON.stringify(userBody));
+
+    navigate('/');
+    window.location.reload();
   };
 
   return (

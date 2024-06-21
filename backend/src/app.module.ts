@@ -15,8 +15,6 @@ import config from './config/config';
 import * as process from 'node:process';
 import { ProductController } from './product/product.controller';
 import { ProductModule } from './product/product.module';
-import { PriceModule } from './price/price.module';
-import { PriceController } from './price/price.controller';
 import { FavoritesModule } from './favorites/favorites.module';
 
 @Module({
@@ -42,10 +40,14 @@ import { FavoritesModule } from './favorites/favorites.module';
     VerificationModule,
     FeedbackModule,
     ProductModule,
-    PriceModule,
-    FavoritesModule
+    FavoritesModule,
   ],
-  controllers: [AppController, UsersController, AuthController, ProductController, PriceController],
+  controllers: [
+    AppController,
+    UsersController,
+    AuthController,
+    ProductController,
+  ],
   providers: [AppService],
 })
 export class AppModule {

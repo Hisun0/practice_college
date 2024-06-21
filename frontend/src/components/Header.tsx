@@ -3,9 +3,33 @@ import { GrClose } from "react-icons/gr";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaRegHeart, FaUserCircle } from 'react-icons/fa';
 import { BiBasket } from "react-icons/bi";
+import axiosInstance from '../../axiosInstance';
+import { useAppDispatch } from '../redux';
+import { selectToken } from '../redux/selectors';
+import { useNavigate } from 'react-router-dom';
 
 function Header({ isLoggedIn }) {
   const [showMenu, setShowMenu] = useState(false);
+  const [showLogout, setShowLogout] = useState(false);
+  const navigate = useNavigate();
+
+  const onClickLogout = async () => {
+    const { accessToken } = JSON.parse(localStorage.getItem('accessToken'));
+
+    try {
+      await axiosInstance.get('/api/auth/logout', {
+        headers: {
+          Authorization: `Bearer ${ accessToken }`,
+        }
+      });
+
+      localStorage.removeItem('accessToken');
+      navigate('/');
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const renderLogInOrNo = () => {
     if (isLoggedIn) {
@@ -15,7 +39,23 @@ function Header({ isLoggedIn }) {
             <button className="text-white font-medium bg-indigo-600 hover:bg-indigo-700 py-2 px-4 rounded-lg">Выставить лот
             </button>
           </a>
-          <FaUserCircle />
+          <FaUserCircle
+            size="40"
+            className="cursor-pointer"
+            onClick={() => setShowLogout(!showLogout)}
+          />
+          {showLogout && (
+            <div
+              className="absolute right-16 top-16 mt-2 py-2 w-48 bg-white rounded-lg shadow-xl"
+            >
+              <button
+                className="block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white w-full text-left"
+                onClick={ onClickLogout }
+              >
+                Выход из аккаунта
+              </button>
+            </div>
+          ) }
         </>
       );
     }
@@ -33,7 +73,7 @@ function Header({ isLoggedIn }) {
   return (
     <header className="flex flex-row items-center justify-between sm:justify-around p-2 py-4 bg-white drop-shadow">
       <a href="/">
-        <h1 className="">Аукцион</h1>
+      <h1 className="">Аукцион</h1>
       </a>
 
       <div>

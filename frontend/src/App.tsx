@@ -7,6 +7,7 @@ import ProductRoutes from './routes/ProductRoutes';
 import AddProduct from './pages/AddProduct';
 import { useEffect, useState } from 'react';
 import { useAppDispatch } from './redux';
+import { selectToken } from './redux/selectors';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

@@ -1,22 +1,27 @@
 import { useAppDispatch } from '../redux';
 import { createProduct } from '../redux/productSlice';
+import { useNavigate } from 'react-router-dom';
 
 const AddForm = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const onSubmit = async (event: Event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
 
-    const accessToken = localStorage.getItem('accessToken');
-    const [userId] = Object.keys(accessToken);
+    const { id } = JSON.parse(localStorage.getItem('accessToken'));
 
     dispatch(createProduct({
-      id: 1,
+      id,
       name: formData.get('name').toString(),
       price: parseInt(formData.get('price').toString()),
       description: formData.get('description').toString(),
     }));
+
+
+
+    navigate('/');
   };
 
   return (

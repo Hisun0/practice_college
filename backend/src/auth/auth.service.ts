@@ -23,9 +23,7 @@ export class AuthService {
   ) {}
 
   async signIn(userLoginDto: UserLoginDto): Promise<SignInServiceInterface> {
-    const user = await this.usersService.findOneByUserName(
-      userLoginDto.email,
-    );
+    const user = await this.usersService.findOneByUserName(userLoginDto.email);
 
     if (user === null || user.email !== userLoginDto.email) {
       return {
@@ -51,6 +49,7 @@ export class AuthService {
     await this.updateRefreshToken(user.id, tokens.refreshToken);
     return {
       success: true,
+      user,
       message: 'Successfully logged in',
       accessToken: tokens.accessToken,
     };
@@ -89,6 +88,7 @@ export class AuthService {
     return {
       success: true,
       message: 'Registration successful',
+      user: newUser,
       tokens,
       email_confirmation: emailConfirmationResponse,
     };

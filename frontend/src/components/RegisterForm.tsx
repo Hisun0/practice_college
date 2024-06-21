@@ -1,8 +1,11 @@
 import axiosInstance from '../../axiosInstance';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../redux';
+import { addToken } from '../redux/tokenSlice';
 
 const RegisterForm = ({ setIsLoggedIn }) => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const onSubmit = async (event) => {
     event.preventDefault();

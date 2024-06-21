@@ -28,17 +28,19 @@ export class ProductService {
   }
 
   async add(product: CreateProductDto): Promise<ProductEntity> {
-    const { user_add_id, name } = product;
+    const { userId, name, description, price } = product;
 
-    const userAddId = await this.userRepository.findOneBy({ id: user_add_id });
+    const userAddId = await this.userRepository.findOneBy({ id: userId });
     if (!userAddId) {
-      throw new NotFoundException('User does not exist')
+      throw new NotFoundException('User does not exist');
     }
 
     const newProduct = this.productRepository.create({
       userAddId,
-      name
-    })
+      name,
+      description,
+      price,
+    });
 
     return this.productRepository.save(newProduct);
   }
