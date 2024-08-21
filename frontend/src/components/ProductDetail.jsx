@@ -19,13 +19,13 @@ const ProductDetail = () => {
   };
 
   return (
-    <div className="flex space-x-6">
+    <div className="flex grow-1 flex-col justify-between m-6">
       <div className="w-1/2">
-        <div className="mb-4">
-          <h2 className="text-xl font-bold">$56</h2>
-          <h3 className="text-lg font-semibold">Product name</h3>
-          <p className="text-gray-600 mb-4">Body text for describing why this product is simply a must-buy</p>
-          <button className="text-white font-medium bg-indigo-600 hover:bg-indigo-700 py-2 px-4 rounded-lg" onClick={handleClick}>Сделать ставку</button>
+        <div className="flex-auto flex-col justify-between">
+          <h2 className="text-3xl font-bold my-3">$56</h2>
+          <h3 className="text-lg font-semibold">Имя продукта</h3>
+          <p className="text-gray-600 mb-4">Основной текст, описывающий, почему этот продукт просто необходимо купить</p>
+          <button className="text-white font-medium bg-indigo-600 hover:bg-indigo-700 py-2 px-4 rounded-lg my-3" onClick={handleClick}>Сделать ставку</button>
         </div>
       </div>
       {isFormOpen && (
